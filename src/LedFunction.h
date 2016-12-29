@@ -4,16 +4,18 @@ by bitluni 2016
 https://creativecommons.org/licenses/by/4.0/
 Attribution means you can use it however you like as long you
 mention that it's base on my stuff.
-I'll be pleased if you'd do it by sharing http://youtube.com/bitlunislab
+I'll be pleased if you'd do it ba sharing http://youtube.com/bitlunislab
 */
 
 #include <ESP8266WebServer.h>
+//#include LedStates.h
 #ifndef LED_FUNCTION_H
 #define LED_FUNCTION_H
 
 const char *rgbNames[] = {"r", "g", "b"};
 
 class LedStates;
+
 class LedFunction
 {
   public:
@@ -47,7 +49,15 @@ class LedFunction
       }
     return true;
   }
-  
+
+  int getArgValue(ESP8266WebServer &server,String name)
+  {
+    for (uint8_t i = 0; i < server.args(); i++)
+      if(server.argName(i) == name)
+        return server.arg(i).toInt();
+    return -1;
+  }
+
   virtual void render() = 0;
 };
 
